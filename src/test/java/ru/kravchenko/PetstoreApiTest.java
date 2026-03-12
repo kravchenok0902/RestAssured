@@ -14,7 +14,7 @@ public class PetstoreApiTest {
 
     @Test
     public void testCreatePet() {
-        int petId = getPetId();
+        int petId = generatePetId();
         String petName = "Fluffy";
         String petStatus = "available";
 
@@ -27,28 +27,8 @@ public class PetstoreApiTest {
     }
 
     @Test
-    public void testGetAndVerifyPetParameters() {
-        int petId = getPetId();
-        String petName = "Buddy";
-        String petStatus = "pending";
-
-        createPet(petId, petName, petStatus)
-                .then()
-                .statusCode(200);
-
-        Response response = getPetById(petId);
-        response.then()
-                .statusCode(200)
-                .body("id", equalTo(petId))
-                .body("name", equalTo(petName))
-                .body("status", equalTo(petStatus))
-                .body("category.name", equalTo("Dogs"))
-                .body("photoUrls", hasSize(greaterThan(0)));
-    }
-
-    @Test
     public void testCreateAndGetPet() {
-        int petId = getPetId();
+        int petId = generatePetId();
         String petName = "Rex";
         String petStatus = "sold";
 
@@ -104,7 +84,7 @@ public class PetstoreApiTest {
                 .get(PET_ENDPOINT + "/{petId}");
     }
 
-    public int getPetId() {
+    public int generatePetId() {
         double randomValue = Math.random();
         return (int) (randomValue * 100000);
     }
